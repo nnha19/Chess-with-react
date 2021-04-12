@@ -49,11 +49,10 @@ const ChessBoard = (props) => {
           white.some((white) => white === i) ? "white" : ""
         }`}
       >
-        <Pieces i={i} pieces={props.pieces} />
+        <Pieces index={i} pieces={props.pieces} />
       </div>
     );
   });
-  console.log(props.pieces);
   return (
     <>
       <div className="board-container">
