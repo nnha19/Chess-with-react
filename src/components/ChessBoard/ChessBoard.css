@@ -1,0 +1,24 @@
+.board-container {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+.board {
+  width: 60%;
+  height: max-content;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+}
+.board__square {
+  width: 4rem;
+  height: 4rem;
+  background: rgba(0, 0, 0, 0.37);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.white {
+  background: white;
+}
