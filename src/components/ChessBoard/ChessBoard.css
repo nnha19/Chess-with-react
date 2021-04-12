@@ -22,3 +22,16 @@
 .white {
   background: white;
 }
+.moveable {
+  position: relative;
+}
+
+.moveable::before {
+  position: absolute;
+  content: "";
+  display: inline-block;
+  background: rgba(24, 127, 168, 0.733);
+  border-radius: 50%;
+  width: 50%;
+  height: 50%;
+}

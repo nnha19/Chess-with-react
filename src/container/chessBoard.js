@@ -18,13 +18,22 @@ class chessBoard extends Component {
       `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_queen.png`,
   };
   pawns = (num, type) => {
-    return Array.from(Array(8)).map((pawn, i) => {
+    let result = Array.from(Array(8)).map((pawn, i) => {
       return {
         img: this.piecesImg.pawn(type),
         initPlace: i + num,
-        move: "",
+        move: function () {
+          const moveAbleArr = [];
+          for (let i = 1; i <= 2; i++) {
+            moveAbleArr.push(
+              type === "white" ? this.initPlace + 8 * i : this.initPlace - 8 * i
+            );
+          }
+          return moveAbleArr;
+        },
       };
     });
+    return result;
   };
   state = {
     pieces: {
@@ -42,8 +51,8 @@ class chessBoard extends Component {
           { img: this.piecesImg.horse("white"), initPlace: 1, move: "" },
           { img: this.piecesImg.horse("white"), initPlace: 6, move: "" },
         ],
-        king: [{ img: this.piecesImg.king("white"), initPlace: 3, move: "" }],
-        queen: [{ img: this.piecesImg.queen("white"), initPlace: 4, move: "" }],
+        king: [{ img: this.piecesImg.king("white"), initPlace: 4, move: "" }],
+        queen: [{ img: this.piecesImg.queen("white"), initPlace: 3, move: "" }],
       },
       black: {
         pawns: this.pawns(48, "black"),
@@ -59,18 +68,32 @@ class chessBoard extends Component {
           { img: this.piecesImg.horse("black"), initPlace: 62, move: "" },
           { img: this.piecesImg.horse("black"), initPlace: 57, move: "" },
         ],
-        king: [{ img: this.piecesImg.king("black"), initPlace: 59, move: "" }],
+        king: [{ img: this.piecesImg.king("black"), initPlace: 60, move: "" }],
         queen: [
-          { img: this.piecesImg.queen("black"), initPlace: 60, move: "" },
+          { img: this.piecesImg.queen("black"), initPlace: 59, move: "" },
         ],
       },
     },
+    moveAbleSquares: [],
   };
+
+  moveThePiece = (piece) => {
+    const moveAble = piece.move();
+    console.log(moveAble);
+    let moveAbleSquares = [...this.state.moveAbleSquares];
+    moveAbleSquares = moveAble;
+    this.setState({ moveAbleSquares });
+  };
+
   render() {
-    console.log(this.state.pieces);
+    console.log(this.state.moveAbleSquares);
     return (
       <>
-        <ChessBoard pieces={this.state.pieces} />
+        <ChessBoard
+          moveThePiece={(piece) => this.moveThePiece(piece)}
+          pieces={this.state.pieces}
+          moveAbleSquares={this.state.moveAbleSquares}
+        />
       </>
     );
   }

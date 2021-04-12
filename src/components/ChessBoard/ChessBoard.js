@@ -39,17 +39,25 @@ const ChessBoard = (props) => {
     60,
     62,
   ];
+
   const squareArray = Array.from(Array(64));
 
   const square = squareArray.map((square, i) => {
+    const squareClsName = `board__square
+   ${white.some((white) => white === i) ? "white" : ""} `.split(" ");
+    props.moveAbleSquares.forEach((square) => {
+      if (square === i) {
+        squareClsName.push("moveable");
+      }
+    });
+
     return (
-      <div
-        key={i}
-        className={`board__square ${
-          white.some((white) => white === i) ? "white" : ""
-        }`}
-      >
-        <Pieces index={i} pieces={props.pieces} />
+      <div key={i} className={squareClsName.join(" ")}>
+        <Pieces
+          clicked={(piece) => props.moveThePiece(piece)}
+          index={i}
+          pieces={props.pieces}
+        />
       </div>
     );
   });

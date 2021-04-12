@@ -10,7 +10,14 @@ const Pieces = (props) => {
     });
     return pieces.flat().map((piece) => {
       if (piece.initPlace === props.index) {
-        return <img className="piece" src={piece.img} />;
+        return (
+          <img
+            key={props.index + new Date()}
+            className="piece"
+            src={piece.img}
+            onClick={() => props.clicked(piece)}
+          />
+        );
       }
     });
   };
