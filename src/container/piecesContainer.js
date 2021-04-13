@@ -26,7 +26,7 @@ const pawns = (num, type) => {
 const state = {
   pieces: {
     white: {
-      pawns: pawns(8, "white"),
+      pawn: pawns(8, "white"),
       castle: [
         {
           img: piecesImg.castle("white"),
@@ -103,7 +103,7 @@ const state = {
       ],
     },
     black: {
-      pawns: pawns(48, "black"),
+      pawn: pawns(48, "black"),
       castle: [
         {
           img: piecesImg.castle("black"),

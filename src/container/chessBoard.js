@@ -32,15 +32,21 @@ class chessBoard extends Component {
   };
 
   moveThePieceHandler = (moveSquare) => {
+    const { pickedPiece } = this.state;
     const pieces = { ...this.state.pieces };
-    const team = { ...pieces[this.state.pickedPiece.team] };
-    const pawns = [...team.pawns];
-    const pawn = { ...pawns[6] };
-    pawn.initPlace = moveSquare;
-    pawns[6] = pawn;
-    team.pawns = pawns;
-    pieces[this.state.pickedPiece.team] = team;
-    this.setState({ pieces: pieces });
+    const piecesTeam = { ...pieces[pickedPiece.team] };
+
+    const oldPiece = [
+      ...this.state.pieces[pickedPiece.team][pickedPiece.pieceName],
+    ];
+    const piece = oldPiece.find((piece) => piece.id === pickedPiece.id);
+    piece.initPlace = moveSquare;
+    oldPiece[
+      (oldPiece.findIndex = (piece) => piece.id === pickedPiece.id)
+    ] = piece;
+    piecesTeam[pickedPiece.pieceName] = oldPiece;
+    pieces[pickedPiece.team] = piecesTeam;
+    this.setState({ pieces, moveAbleSquares: [] });
   };
 
   render() {
