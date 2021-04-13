@@ -1,28 +1,19 @@
 import React, { Component } from "react";
 
+import { v4 as uuidv4 } from "uuid";
+
+import { piecesImg } from "../assets/piecesImgs";
 import ChessBoard from "../components/ChessBoard/ChessBoard";
 
 class chessBoard extends Component {
-  piecesImg = {
-    pawn: (team) =>
-      `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_pawn.png`,
-    castle: (team) =>
-      `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_rook.png`,
-    biShop: (team) =>
-      `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_bishop.png`,
-    horse: (team) =>
-      `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_knight.png`,
-    king: (team) =>
-      `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_king.png`,
-    queen: (team) =>
-      `https://raw.githubusercontent.com/austinChappell/chess-game-react/master/src/assets/images/pieces/${team}_queen.png`,
-  };
   pawns = (num, type) => {
     let result = Array.from(Array(8)).map((pawn, i) => {
       return {
-        img: this.piecesImg.pawn(type),
+        img: piecesImg.pawn(type),
         initPlace: i + num,
         team: type,
+        pieceName: "pawn",
+        id: uuidv4(),
         move: function () {
           const moveAbleArr = [];
           for (let i = 1; i <= 2; i++) {
@@ -41,37 +32,155 @@ class chessBoard extends Component {
       white: {
         pawns: this.pawns(8, "white"),
         castle: [
-          { img: this.piecesImg.castle("white"), initPlace: 0, move: "" },
-          { img: this.piecesImg.castle("white"), initPlace: 7, move: "" },
+          {
+            img: piecesImg.castle("white"),
+            initPlace: 0,
+            move: "",
+            pieceName: "castle",
+            id: uuidv4(),
+            team: "white",
+          },
+          {
+            img: piecesImg.castle("white"),
+            initPlace: 7,
+            move: "",
+            pieceName: "castle",
+            id: uuidv4(),
+            team: "white",
+          },
         ],
         biShop: [
-          { img: this.piecesImg.biShop("white"), initPlace: 2, move: "" },
-          { img: this.piecesImg.biShop("white"), initPlace: 5, move: "" },
+          {
+            img: piecesImg.biShop("white"),
+            initPlace: 2,
+            move: "",
+            pieceName: "biShop",
+            id: uuidv4(),
+            team: "white",
+          },
+          {
+            img: piecesImg.biShop("white"),
+            initPlace: 5,
+            move: "",
+            pieceName: "biShop",
+            id: uuidv4(),
+            team: "white",
+          },
         ],
         horse: [
-          { img: this.piecesImg.horse("white"), initPlace: 1, move: "" },
-          { img: this.piecesImg.horse("white"), initPlace: 6, move: "" },
+          {
+            img: piecesImg.horse("white"),
+            initPlace: 1,
+            move: "",
+            pieceName: "horse",
+            id: uuidv4(),
+            team: "white",
+          },
+          {
+            img: piecesImg.horse("white"),
+            initPlace: 6,
+            move: "",
+            pieceName: "horse",
+            id: uuidv4(),
+            team: "white",
+          },
         ],
-        king: [{ img: this.piecesImg.king("white"), initPlace: 4, move: "" }],
-        queen: [{ img: this.piecesImg.queen("white"), initPlace: 3, move: "" }],
+        king: [
+          {
+            img: piecesImg.king("white"),
+            initPlace: 4,
+            move: "",
+            team: "white",
+            id: uuidv4(),
+            pieceName: "king",
+          },
+        ],
+        queen: [
+          {
+            img: piecesImg.queen("white"),
+            initPlace: 3,
+            move: "",
+            team: "white",
+            id: uuidv4(),
+            pieceName: "queen",
+          },
+        ],
       },
       black: {
         pawns: this.pawns(48, "black"),
         castle: [
-          { img: this.piecesImg.castle("black"), initPlace: 63, move: "" },
-          { img: this.piecesImg.castle("black"), initPlace: 56, move: "" },
+          {
+            img: piecesImg.castle("black"),
+            initPlace: 63,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "castle",
+          },
+          {
+            img: piecesImg.castle("black"),
+            initPlace: 56,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "castle",
+          },
         ],
         biShop: [
-          { img: this.piecesImg.biShop("black"), initPlace: 61, move: "" },
-          { img: this.piecesImg.biShop("black"), initPlace: 58, move: "" },
+          {
+            img: piecesImg.biShop("black"),
+            initPlace: 61,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "biShop",
+          },
+          {
+            img: piecesImg.biShop("black"),
+            initPlace: 58,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "biShop",
+          },
         ],
         horse: [
-          { img: this.piecesImg.horse("black"), initPlace: 62, move: "" },
-          { img: this.piecesImg.horse("black"), initPlace: 57, move: "" },
+          {
+            img: piecesImg.horse("black"),
+            initPlace: 62,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "horse",
+          },
+          {
+            img: piecesImg.horse("black"),
+            initPlace: 57,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "horse",
+          },
         ],
-        king: [{ img: this.piecesImg.king("black"), initPlace: 60, move: "" }],
+        king: [
+          {
+            img: piecesImg.king("black"),
+            initPlace: 60,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "king",
+          },
+        ],
         queen: [
-          { img: this.piecesImg.queen("black"), initPlace: 59, move: "" },
+          {
+            img: piecesImg.queen("black"),
+            initPlace: 59,
+            move: "",
+            team: "black",
+            id: uuidv4(),
+            pieceName: "queen",
+          },
         ],
       },
     },
@@ -104,11 +213,11 @@ class chessBoard extends Component {
     pawns[6] = pawn;
     team.pawns = pawns;
     pieces[this.state.pickedPiece.team] = team;
-    console.log(pieces);
     this.setState({ pieces: pieces });
   };
 
   render() {
+    console.log(piecesImg);
     return (
       <>
         <ChessBoard
