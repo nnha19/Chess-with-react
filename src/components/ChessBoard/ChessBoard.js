@@ -42,6 +42,14 @@ const ChessBoard = (props) => {
 
   const squareArray = Array.from(Array(64));
 
+  const moveThePieceHandler = (index) => {
+    props.moveAbleSquares.forEach((square) => {
+      if (square === index) {
+        props.moveThePiece(index);
+      }
+    });
+  };
+
   const square = squareArray.map((square, i) => {
     const squareClsName = `board__square
    ${white.some((white) => white === i) ? "white" : ""} `.split(" ");
@@ -52,9 +60,13 @@ const ChessBoard = (props) => {
     });
 
     return (
-      <div key={i} className={squareClsName.join(" ")}>
+      <div
+        onClick={() => moveThePieceHandler(i)}
+        key={i}
+        className={squareClsName.join(" ")}
+      >
         <Pieces
-          clicked={(piece) => props.moveThePiece(piece)}
+          clicked={(piece) => props.showMoveAbleSquares(piece)}
           index={i}
           pieces={props.pieces}
         />
@@ -63,7 +75,7 @@ const ChessBoard = (props) => {
   });
   return (
     <>
-      <div className="board-container">
+      <div onClick={props.clearMoveAble} className="board-container">
         <div className="board">{square}</div>
       </div>
     </>

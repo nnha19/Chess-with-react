@@ -22,6 +22,7 @@ class chessBoard extends Component {
       return {
         img: this.piecesImg.pawn(type),
         initPlace: i + num,
+        team: type,
         move: function () {
           const moveAbleArr = [];
           for (let i = 1; i <= 2; i++) {
@@ -75,24 +76,49 @@ class chessBoard extends Component {
       },
     },
     moveAbleSquares: [],
+    pickedPiece: {},
   };
 
-  moveThePiece = (piece) => {
+  showMoveAbleSquaresHandler = (piece) => {
     const moveAble = piece.move();
-    console.log(moveAble);
     let moveAbleSquares = [...this.state.moveAbleSquares];
     moveAbleSquares = moveAble;
-    this.setState({ moveAbleSquares });
+    const pickedPiece = piece;
+    this.setState({ moveAbleSquares, pickedPiece });
+  };
+
+  clearMoveAbleHandler = (e) => {
+    if (!e.target.closest(".board__square")) {
+      let moveAbleSquares = [...this.state.moveAbleSquares];
+      moveAbleSquares = [];
+      this.setState({ moveAbleSquares });
+    }
+  };
+
+  moveThePieceHandler = (moveSquare) => {
+    const pieces = { ...this.state.pieces };
+    const team = { ...pieces[this.state.pickedPiece.team] };
+    const pawns = [...team.pawns];
+    const pawn = { ...pawns[6] };
+    pawn.initPlace = moveSquare;
+    pawns[6] = pawn;
+    team.pawns = pawns;
+    pieces[this.state.pickedPiece.team] = team;
+    console.log(pieces);
+    this.setState({ pieces: pieces });
   };
 
   render() {
-    console.log(this.state.moveAbleSquares);
     return (
       <>
         <ChessBoard
-          moveThePiece={(piece) => this.moveThePiece(piece)}
+          clearMoveAble={this.clearMoveAbleHandler}
+          showMoveAbleSquares={(piece) =>
+            this.showMoveAbleSquaresHandler(piece)
+          }
           pieces={this.state.pieces}
           moveAbleSquares={this.state.moveAbleSquares}
+          moveThePiece={(moveSquare) => this.moveThePieceHandler(moveSquare)}
         />
       </>
     );
