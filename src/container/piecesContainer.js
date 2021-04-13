@@ -1,6 +1,48 @@
 import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
+const squareColEnds = [7, 15, 23, 31, 39, 47, 55, 63];
+const squareColEndsLeft = [0, 8, 16, 24, 32, 40, 48, 56];
+
+const squareRowEnds = [0, 1, 2, 3, 4, 5, 6, 7];
+const squareRowEndsBtn = [56, 57, 58, 59, 60, 61, 62, 63];
+
+const moveAbleSquareFunc = (type, curSquare, pieceName) => {
+  const moveAbleArr = [];
+  if (pieceName === "pawn") {
+    console.log("Hello");
+    for (let i = 1; i <= 2; i++) {
+      type === "white"
+        ? moveAbleArr.push(curSquare + 8 * i)
+        : moveAbleArr.push(curSquare - 8 * i);
+    }
+  } else if (pieceName === "castle") {
+    function checkMoveAbleSquares(endArr, type) {
+      for (let i = 0; i <= 8; i++) {
+        let square;
+        if (type === "plus") {
+          square = curSquare + i;
+        } else if (type === "minus") {
+          square = curSquare - i;
+        } else if (type === "plusmultiply") {
+          square = curSquare + 8 * i;
+        } else if (type === "minusmultiply") {
+          square = curSquare - 8 * i;
+        }
+        const sameSquare = endArr.some((end) => end === square);
+        i = sameSquare ? 8 : i;
+        curSquare !== square && moveAbleArr.push(square);
+      }
+    }
+    checkMoveAbleSquares(squareColEnds, "plus");
+    checkMoveAbleSquares(squareColEndsLeft, "minus");
+    checkMoveAbleSquares(squareRowEnds, "plusmultiply");
+    checkMoveAbleSquares(squareRowEndsBtn, "minusmultiply");
+  }
+
+  return moveAbleArr;
+};
+
 const pawns = (num, type) => {
   let result = Array.from(Array(8)).map((pawn, i) => {
     return {
@@ -10,13 +52,7 @@ const pawns = (num, type) => {
       pieceName: "pawn",
       id: uuidv4(),
       move: function () {
-        const moveAbleArr = [];
-        for (let i = 1; i <= 2; i++) {
-          moveAbleArr.push(
-            type === "white" ? this.initPlace + 8 * i : this.initPlace - 8 * i
-          );
-        }
-        return moveAbleArr;
+        return moveAbleSquareFunc(type, this.initPlace, this.pieceName);
       },
     };
   });
@@ -30,8 +66,14 @@ const state = {
       castle: [
         {
           img: piecesImg.castle("white"),
-          initPlace: 0,
-          move: "",
+          initPlace: 35,
+          move: function () {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName
+            );
+          },
           pieceName: "castle",
           id: uuidv4(),
           team: "white",
@@ -39,7 +81,13 @@ const state = {
         {
           img: piecesImg.castle("white"),
           initPlace: 7,
-          move: "",
+          move: function () {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName
+            );
+          },
           pieceName: "castle",
           id: uuidv4(),
           team: "white",
@@ -108,7 +156,13 @@ const state = {
         {
           img: piecesImg.castle("black"),
           initPlace: 63,
-          move: "",
+          move: function () {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "castle",
@@ -116,7 +170,13 @@ const state = {
         {
           img: piecesImg.castle("black"),
           initPlace: 56,
-          move: "",
+          move: function () {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "castle",
