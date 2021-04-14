@@ -2,23 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
 import findPieceById from "../share/findPieceById";
-
-//get init places for definied team.will return an array
-function getInitPlaces(team) {
-  const { pieces } = state;
-  const piecesKey = Object.keys(pieces.white);
-
-  let initPlaces = piecesKey.map((piecesKey) => {
-    return pieces[team][piecesKey];
-  });
-  initPlaces = initPlaces.map((piece) => {
-    return piece.map((piece) => {
-      return piece.initPlace;
-    });
-  });
-  initPlaces = initPlaces.flat();
-  return initPlaces;
-}
+import movePawn from "../movePieces/movePawn";
 
 const squareColEnds = [7, 15, 23, 31, 39, 47, 55, 63];
 const squareColEndsLeft = [0, 8, 16, 24, 32, 40, 48, 56];
@@ -43,30 +27,6 @@ function castleMoveAbleSquares(endArr, type, curSquare, moveAbleArr) {
     curSquare !== square && moveAbleArr.push(square);
   }
 }
-
-const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
-  const moveAbleArr = [];
-  if (pieceName === "pawn") {
-    pawnMoveAbleSquares(type, curSquare, moveAbleArr, id);
-  } else if (pieceName === "castle") {
-    castleMoveAbleSquares(squareColEnds, "plus", curSquare, moveAbleArr);
-    castleMoveAbleSquares(squareColEndsLeft, "minus", curSquare, moveAbleArr);
-    castleMoveAbleSquares(
-      squareRowEnds,
-      "plusmultiply",
-      curSquare,
-      moveAbleArr
-    );
-    castleMoveAbleSquares(
-      squareRowEndsBtn,
-      "minusmultiply",
-      curSquare,
-      moveAbleArr
-    );
-  }
-
-  return moveAbleArr;
-};
 
 const pawns = (num, type) => {
   let result = Array.from(Array(8)).map((pawn, i) => {
@@ -276,44 +236,28 @@ const state = {
   pickedPiece: {},
 };
 
-function pawnMoveAbleSquares(type, curSquare, moveAbleArr, id) {
-  pawnKillOpponentFunc(type, curSquare, id);
-
-  const whiteInitPlaces = getInitPlaces("white");
-  const blackInitPlaces = getInitPlaces("black");
-
-  const allInitPlaces = [...whiteInitPlaces, ...blackInitPlaces];
-  const curSquareIndex = allInitPlaces.indexOf(curSquare);
-  allInitPlaces.splice(curSquareIndex, 1);
-
-  for (let i = 1; i <= 2; i++) {
-    const obj = {
-      white: curSquare + 8 * i,
-      black: curSquare - 8 * i,
-    };
-    const moveAbleSquare = obj[type];
-    !allInitPlaces.some((initPlace) => initPlace === moveAbleSquare)
-      ? moveAbleArr.push(moveAbleSquare)
-      : (i = 2);
+const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
+  const moveAbleArr = [];
+  if (pieceName === "pawn") {
+    movePawn(type, curSquare, moveAbleArr, id, state);
+  } else if (pieceName === "castle") {
+    castleMoveAbleSquares(squareColEnds, "plus", curSquare, moveAbleArr);
+    castleMoveAbleSquares(squareColEndsLeft, "minus", curSquare, moveAbleArr);
+    castleMoveAbleSquares(
+      squareRowEnds,
+      "plusmultiply",
+      curSquare,
+      moveAbleArr
+    );
+    castleMoveAbleSquares(
+      squareRowEndsBtn,
+      "minusmultiply",
+      curSquare,
+      moveAbleArr
+    );
   }
-}
 
-function pawnKillOpponentFunc(type, curSquare, id) {
-  const obj = {
-    white: [curSquare + 9, curSquare + 7],
-    black: [curSquare - 9, curSquare - 7],
-  };
-  const opponentTeamSquare = getInitPlaces(
-    type === "white" ? "black" : "white"
-  );
-  for (let i = 0; i < obj[type].length; i++) {
-    opponentTeamSquare.forEach((square) => {
-      if (square === obj[type][i]) {
-        const piece = findPieceById(id, state.pieces[type]);
-        piece.killOpponent.push(obj[type][i]);
-      }
-    });
-  }
-}
+  return moveAbleArr;
+};
 
 export default state;
