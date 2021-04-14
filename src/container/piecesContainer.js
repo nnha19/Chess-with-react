@@ -1,43 +1,66 @@
 import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
+//get init places for definied team.will return an array
+function getInitPlaces(team) {
+  const { pieces } = state;
+  const piecesKey = Object.keys(pieces.white);
+
+  let initPlaces = piecesKey.map((piecesKey) => {
+    return pieces[team][piecesKey];
+  });
+  initPlaces = initPlaces.map((piece) => {
+    return piece.map((piece) => {
+      return piece.initPlace;
+    });
+  });
+  initPlaces = initPlaces.flat();
+  return initPlaces;
+}
+
 const squareColEnds = [7, 15, 23, 31, 39, 47, 55, 63];
 const squareColEndsLeft = [0, 8, 16, 24, 32, 40, 48, 56];
 
 const squareRowEnds = [0, 1, 2, 3, 4, 5, 6, 7];
 const squareRowEndsBtn = [56, 57, 58, 59, 60, 61, 62, 63];
 
+function castleMoveAbleSquares(endArr, type, curSquare, moveAbleArr) {
+  for (let i = 0; i <= 8; i++) {
+    let square;
+    if (type === "plus") {
+      square = curSquare + i;
+    } else if (type === "minus") {
+      square = curSquare - i;
+    } else if (type === "plusmultiply") {
+      square = curSquare + 8 * i;
+    } else if (type === "minusmultiply") {
+      square = curSquare - 8 * i;
+    }
+    const sameSquare = endArr.some((end) => end === square);
+    i = sameSquare ? 8 : i;
+    curSquare !== square && moveAbleArr.push(square);
+  }
+}
+
 const moveAbleSquareFunc = (type, curSquare, pieceName) => {
   const moveAbleArr = [];
   if (pieceName === "pawn") {
-    console.log("Hello");
-    for (let i = 1; i <= 2; i++) {
-      type === "white"
-        ? moveAbleArr.push(curSquare + 8 * i)
-        : moveAbleArr.push(curSquare - 8 * i);
-    }
+    pawnMoveAbleSquares(type, curSquare, moveAbleArr);
   } else if (pieceName === "castle") {
-    function checkMoveAbleSquares(endArr, type) {
-      for (let i = 0; i <= 8; i++) {
-        let square;
-        if (type === "plus") {
-          square = curSquare + i;
-        } else if (type === "minus") {
-          square = curSquare - i;
-        } else if (type === "plusmultiply") {
-          square = curSquare + 8 * i;
-        } else if (type === "minusmultiply") {
-          square = curSquare - 8 * i;
-        }
-        const sameSquare = endArr.some((end) => end === square);
-        i = sameSquare ? 8 : i;
-        curSquare !== square && moveAbleArr.push(square);
-      }
-    }
-    checkMoveAbleSquares(squareColEnds, "plus");
-    checkMoveAbleSquares(squareColEndsLeft, "minus");
-    checkMoveAbleSquares(squareRowEnds, "plusmultiply");
-    checkMoveAbleSquares(squareRowEndsBtn, "minusmultiply");
+    castleMoveAbleSquares(squareColEnds, "plus", curSquare, moveAbleArr);
+    castleMoveAbleSquares(squareColEndsLeft, "minus", curSquare, moveAbleArr);
+    castleMoveAbleSquares(
+      squareRowEnds,
+      "plusmultiply",
+      curSquare,
+      moveAbleArr
+    );
+    castleMoveAbleSquares(
+      squareRowEndsBtn,
+      "minusmultiply",
+      curSquare,
+      moveAbleArr
+    );
   }
 
   return moveAbleArr;
@@ -243,5 +266,25 @@ const state = {
   moveAbleSquares: [],
   pickedPiece: {},
 };
+
+function pawnMoveAbleSquares(type, curSquare, moveAbleArr) {
+  const whiteInitPlaces = getInitPlaces("white");
+  const blackInitPlaces = getInitPlaces("black");
+
+  const allInitPlaces = [...whiteInitPlaces, ...blackInitPlaces];
+  const curSquareIndex = allInitPlaces.indexOf(curSquare);
+  allInitPlaces.splice(curSquareIndex, 1);
+
+  for (let i = 1; i <= 2; i++) {
+    const obj = {
+      white: curSquare + 8 * i,
+      black: curSquare - 8 * i,
+    };
+    const moveAbleSquare = obj[type];
+    !allInitPlaces.some((initPlace) => initPlace === moveAbleSquare)
+      ? moveAbleArr.push(moveAbleSquare)
+      : (i = 2);
+  }
+}
 
 export default state;
