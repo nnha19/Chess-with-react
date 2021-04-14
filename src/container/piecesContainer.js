@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
+import findPieceById from "../share/findPieceById";
+
 //get init places for definied team.will return an array
 function getInitPlaces(team) {
   const { pieces } = state;
@@ -42,10 +44,10 @@ function castleMoveAbleSquares(endArr, type, curSquare, moveAbleArr) {
   }
 }
 
-const moveAbleSquareFunc = (type, curSquare, pieceName) => {
+const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
   const moveAbleArr = [];
   if (pieceName === "pawn") {
-    pawnMoveAbleSquares(type, curSquare, moveAbleArr);
+    pawnMoveAbleSquares(type, curSquare, moveAbleArr, id);
   } else if (pieceName === "castle") {
     castleMoveAbleSquares(squareColEnds, "plus", curSquare, moveAbleArr);
     castleMoveAbleSquares(squareColEndsLeft, "minus", curSquare, moveAbleArr);
@@ -74,8 +76,14 @@ const pawns = (num, type) => {
       team: type,
       pieceName: "pawn",
       id: uuidv4(),
+      killOpponent: [],
       move: function () {
-        return moveAbleSquareFunc(type, this.initPlace, this.pieceName);
+        return moveAbleSquareFunc(
+          type,
+          this.initPlace,
+          this.pieceName,
+          this.id
+        );
       },
     };
   });
@@ -197,7 +205,8 @@ const state = {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
-              this.pieceName
+              this.pieceName,
+              this.id
             );
           },
           team: "black",
@@ -267,7 +276,9 @@ const state = {
   pickedPiece: {},
 };
 
-function pawnMoveAbleSquares(type, curSquare, moveAbleArr) {
+function pawnMoveAbleSquares(type, curSquare, moveAbleArr, id) {
+  pawnKillOpponentFunc(type, curSquare, id);
+
   const whiteInitPlaces = getInitPlaces("white");
   const blackInitPlaces = getInitPlaces("black");
 
@@ -284,6 +295,24 @@ function pawnMoveAbleSquares(type, curSquare, moveAbleArr) {
     !allInitPlaces.some((initPlace) => initPlace === moveAbleSquare)
       ? moveAbleArr.push(moveAbleSquare)
       : (i = 2);
+  }
+}
+
+function pawnKillOpponentFunc(type, curSquare, id) {
+  const obj = {
+    white: [curSquare + 9, curSquare + 7],
+    black: [curSquare - 9, curSquare - 7],
+  };
+  const opponentTeamSquare = getInitPlaces(
+    type === "white" ? "black" : "white"
+  );
+  for (let i = 0; i < obj[type].length; i++) {
+    opponentTeamSquare.forEach((square) => {
+      if (square === obj[type][i]) {
+        const piece = findPieceById(id, state.pieces[type]);
+        piece.killOpponent.push(obj[type][i]);
+      }
+    });
   }
 }
 

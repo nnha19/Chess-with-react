@@ -11,6 +11,7 @@ class chessBoard extends Component {
   };
 
   componentDidMount() {
+    console.log("Hello");
     const { pieces, moveAbleSquares, pickedPiece } = piecesState;
     this.setState({ pieces, moveAbleSquares, pickedPiece });
   }
