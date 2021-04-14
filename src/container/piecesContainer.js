@@ -216,6 +216,7 @@ const state = {
   },
   moveAbleSquares: [],
   pickedPiece: {},
+  killAble: [],
 };
 
 const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {

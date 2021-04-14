@@ -8,6 +8,7 @@ class chessBoard extends Component {
     pieces: "",
     pickedPiece: "",
     moveAbleSquares: "",
+    killAble: "",
   };
 
   componentDidMount() {
@@ -20,14 +21,16 @@ class chessBoard extends Component {
     let moveAbleSquares = [...this.state.moveAbleSquares];
     moveAbleSquares = moveAble;
     const pickedPiece = piece;
-    this.setState({ moveAbleSquares, pickedPiece });
+    const { killOpponent: killAble } = piece;
+    this.setState({ moveAbleSquares, pickedPiece, killAble });
   };
 
   clearMoveAbleHandler = (e) => {
     if (!e.target.closest(".board__square")) {
       let moveAbleSquares = [...this.state.moveAbleSquares];
       moveAbleSquares = [];
-      this.setState({ moveAbleSquares });
+      const killAble = [];
+      this.setState({ moveAbleSquares, killAble });
     }
   };
 
@@ -60,7 +63,7 @@ class chessBoard extends Component {
           }
           pieces={pieces}
           moveAbleSquares={moveAbleSquares}
-          killAbleSquares={this.state.pickedPiece.killOpponent}
+          killAbleSquares={this.state.killAble}
           moveThePiece={(moveSquare) => this.moveThePieceHandler(moveSquare)}
         />
       </>
