@@ -1,32 +1,14 @@
 import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
-import findPieceById from "../share/findPieceById";
 import movePawn from "../movePieces/movePawn";
+import moveCastle from "../movePieces/moveCastle";
 
 const squareColEnds = [7, 15, 23, 31, 39, 47, 55, 63];
 const squareColEndsLeft = [0, 8, 16, 24, 32, 40, 48, 56];
 
 const squareRowEnds = [0, 1, 2, 3, 4, 5, 6, 7];
 const squareRowEndsBtn = [56, 57, 58, 59, 60, 61, 62, 63];
-
-function castleMoveAbleSquares(endArr, type, curSquare, moveAbleArr) {
-  for (let i = 0; i <= 8; i++) {
-    let square;
-    if (type === "plus") {
-      square = curSquare + i;
-    } else if (type === "minus") {
-      square = curSquare - i;
-    } else if (type === "plusmultiply") {
-      square = curSquare + 8 * i;
-    } else if (type === "minusmultiply") {
-      square = curSquare - 8 * i;
-    }
-    const sameSquare = endArr.some((end) => end === square);
-    i = sameSquare ? 8 : i;
-    curSquare !== square && moveAbleArr.push(square);
-  }
-}
 
 const pawns = (num, type) => {
   let result = Array.from(Array(8)).map((pawn, i) => {
@@ -241,20 +223,10 @@ const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
   if (pieceName === "pawn") {
     movePawn(type, curSquare, moveAbleArr, id, state);
   } else if (pieceName === "castle") {
-    castleMoveAbleSquares(squareColEnds, "plus", curSquare, moveAbleArr);
-    castleMoveAbleSquares(squareColEndsLeft, "minus", curSquare, moveAbleArr);
-    castleMoveAbleSquares(
-      squareRowEnds,
-      "plusmultiply",
-      curSquare,
-      moveAbleArr
-    );
-    castleMoveAbleSquares(
-      squareRowEndsBtn,
-      "minusmultiply",
-      curSquare,
-      moveAbleArr
-    );
+    moveCastle(squareColEnds, "plus", curSquare, moveAbleArr);
+    moveCastle(squareColEndsLeft, "minus", curSquare, moveAbleArr);
+    moveCastle(squareRowEnds, "plusmultiply", curSquare, moveAbleArr);
+    moveCastle(squareRowEndsBtn, "minusmultiply", curSquare, moveAbleArr);
   }
 
   return moveAbleArr;
