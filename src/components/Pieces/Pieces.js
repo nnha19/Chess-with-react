@@ -15,7 +15,7 @@ const Pieces = (props) => {
             key={props.index + new Date()}
             className="piece"
             src={piece.img}
-            onClick={() => props.clicked(piece)}
+            onClick={() => props.clicked(piece, props.index)}
           />
         );
       }

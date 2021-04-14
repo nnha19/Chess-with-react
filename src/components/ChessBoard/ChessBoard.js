@@ -39,7 +39,9 @@ const ChessBoard = (props) => {
         className={squareClsName.join(" ")}
       >
         <Pieces
-          clicked={(piece) => props.showMoveAbleSquares(piece)}
+          clicked={(piece, curIndex) =>
+            props.showMoveAbleSquares(piece, curIndex)
+          }
           index={i}
           pieces={props.pieces}
         />

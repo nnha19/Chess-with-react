@@ -16,21 +16,37 @@ class chessBoard extends Component {
     this.setState({ pieces, moveAbleSquares, pickedPiece });
   }
 
-  showMoveAbleSquaresHandler = (piece) => {
-    const moveAble = piece.move();
-    let moveAbleSquares = [...this.state.moveAbleSquares];
-    moveAbleSquares = moveAble;
-    const pickedPiece = piece;
-    const { killOpponent: killAble } = piece;
-    this.setState({ moveAbleSquares, pickedPiece, killAble });
-  };
-
-  clearMoveAbleHandler = (e) => {
-    if (!e.target.closest(".board__square")) {
+  clearMoveAbleHandler = (e, killed) => {
+    if (killed || !e.target.closest(".board__square")) {
       let moveAbleSquares = [...this.state.moveAbleSquares];
       moveAbleSquares = [];
       const killAble = [];
       this.setState({ moveAbleSquares, killAble });
+    }
+  };
+
+  showMoveAbleSquaresHandler = (piece, moveIndex) => {
+    const pp = this.state.pickedPiece;
+    if (Object.keys(pp).length === 0 || pp.team === piece.team) {
+      const moveAble = piece.move();
+      let moveAbleSquares = [...this.state.moveAbleSquares];
+      moveAbleSquares = moveAble;
+      const pickedPiece = piece;
+      const { killOpponent: killAble } = piece;
+      this.setState({ moveAbleSquares, pickedPiece, killAble });
+    } else {
+      const killAble = this.state.killAble.some(
+        (square) => square === moveIndex
+      );
+      if (killAble) {
+        const type = this.state.pieces[piece.team][piece.pieceName].filter(
+          (type) => type.id !== piece.id
+        );
+        const oldState = { ...this.state.pieces };
+        oldState[piece.team][piece.pieceName] = type;
+        this.setState({ pieces: oldState });
+        this.clearMoveAbleHandler("", "killed");
+      }
     }
   };
 
@@ -58,8 +74,8 @@ class chessBoard extends Component {
       <>
         <ChessBoard
           clearMoveAble={this.clearMoveAbleHandler}
-          showMoveAbleSquares={(piece) =>
-            this.showMoveAbleSquaresHandler(piece)
+          showMoveAbleSquares={(piece, curIndex) =>
+            this.showMoveAbleSquaresHandler(piece, curIndex)
           }
           pieces={pieces}
           moveAbleSquares={moveAbleSquares}
