@@ -24,6 +24,8 @@ export default function movePawn(type, curSquare, moveAbleArr, id, state) {
 }
 
 function pawnKillOpponentFunc(type, curSquare, id, state) {
+  const piece = findPieceById(id, state.pieces[type]);
+  piece.killOpponent = [];
   const obj = {
     white: [curSquare + 9, curSquare + 7],
     black: [curSquare - 9, curSquare - 7],
@@ -35,7 +37,6 @@ function pawnKillOpponentFunc(type, curSquare, id, state) {
   for (let i = 0; i < obj[type].length; i++) {
     opponentTeamSquare.forEach((square) => {
       if (square === obj[type][i]) {
-        const piece = findPieceById(id, state.pieces[type]);
         piece.killOpponent.push(obj[type][i]);
       }
     });

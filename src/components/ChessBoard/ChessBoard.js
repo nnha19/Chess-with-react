@@ -25,6 +25,12 @@ const ChessBoard = (props) => {
         squareClsName.push("moveable");
       }
     });
+    props.killAbleSquares &&
+      props.killAbleSquares.forEach((square) => {
+        if (square === i) {
+          squareClsName.push("kill");
+        }
+      });
 
     return (
       <div
