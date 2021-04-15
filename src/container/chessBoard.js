@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import ChessBoard from "../components/ChessBoard/ChessBoard";
 import piecesState from "./piecesContainer";
 
+import moveAbleSquareFunc from "../share/moveAbleSquareFunc";
+
 class chessBoard extends Component {
   state = {
     pieces: "",
@@ -59,7 +61,7 @@ class chessBoard extends Component {
     }
 
     if (!pickedPiece || pp.team === piece.team) {
-      const moveAble = piece.move();
+      const moveAble = piece.move(moveAbleSquareFunc, this.state);
       let moveAbleSquares = [...this.state.moveAbleSquares];
       moveAbleSquares = moveAble;
       const pickedPiece = piece;

@@ -1,15 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
-import movePawn from "../movePieces/movePawn";
-import moveCastle from "../movePieces/moveCastle";
-
-const squareColEnds = [7, 15, 23, 31, 39, 47, 55, 63];
-const squareColEndsLeft = [0, 8, 16, 24, 32, 40, 48, 56];
-
-const squareRowEnds = [0, 1, 2, 3, 4, 5, 6, 7];
-const squareRowEndsBtn = [56, 57, 58, 59, 60, 61, 62, 63];
-
 const pawns = (num, type) => {
   let result = Array.from(Array(8)).map((pawn, i) => {
     return {
@@ -20,12 +11,13 @@ const pawns = (num, type) => {
       id: uuidv4(),
       killOpponent: [],
       moved: i + num,
-      move: function () {
+      move: function (moveAbleSquareFunc, state) {
         return moveAbleSquareFunc(
           type,
           this.initPlace,
           this.pieceName,
-          this.id
+          this.id,
+          state
         );
       },
     };
@@ -41,11 +33,12 @@ const state = {
         {
           img: piecesImg.castle("white"),
           initPlace: 35,
-          move: function () {
+          move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
-              this.pieceName
+              this.pieceName,
+              state
             );
           },
           pieceName: "castle",
@@ -55,7 +48,7 @@ const state = {
         {
           img: piecesImg.castle("white"),
           initPlace: 7,
-          move: function () {
+          move: function (moveAbleSquareFunc) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
@@ -130,11 +123,12 @@ const state = {
         {
           img: piecesImg.castle("black"),
           initPlace: 63,
-          move: function () {
+          move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
-              this.pieceName
+              this.pieceName,
+              state
             );
           },
           team: "black",
@@ -144,12 +138,13 @@ const state = {
         {
           img: piecesImg.castle("black"),
           initPlace: 56,
-          move: function () {
+          move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
               this.pieceName,
-              this.id
+              this.id,
+              state
             );
           },
           team: "black",
@@ -220,18 +215,18 @@ const state = {
   killAble: [],
 };
 
-const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
-  const moveAbleArr = [];
-  if (pieceName === "pawn") {
-    movePawn(type, curSquare, moveAbleArr, id, state);
-  } else if (pieceName === "castle") {
-    moveCastle(squareColEnds, "plus", curSquare, moveAbleArr);
-    moveCastle(squareColEndsLeft, "minus", curSquare, moveAbleArr);
-    moveCastle(squareRowEnds, "plusmultiply", curSquare, moveAbleArr);
-    moveCastle(squareRowEndsBtn, "minusmultiply", curSquare, moveAbleArr);
-  }
-
-  return moveAbleArr;
-};
+// const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
+//   console.log("Hey.");
+//   const moveAbleArr = [];
+//   if (pieceName === "pawn") {
+//     movePawn(type, curSquare, moveAbleArr, id, state);
+//   } else if (pieceName === "castle") {
+//     moveCastle(squareColEnds, "plus", curSquare, moveAbleArr);
+//     moveCastle(squareColEndsLeft, "minus", curSquare, moveAbleArr);
+//     moveCastle(squareRowEnds, "plusmultiply", curSquare, moveAbleArr);
+//     moveCastle(squareRowEndsBtn, "minusmultiply", curSquare, moveAbleArr);
+//   }
+//   return moveAbleArr;
+// };
 
 export default state;
