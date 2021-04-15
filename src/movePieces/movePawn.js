@@ -2,7 +2,9 @@ import findPieceById from "../share/findPieceById";
 import getInitPlaces from "../share/getInitPlaces";
 
 export default function movePawn(type, curSquare, moveAbleArr, id, state) {
-  pawnKillOpponentFunc(type, curSquare, id, state);
+  const piece = findPieceById(id, state.pieces[type]);
+
+  pawnKillOpponentFunc(type, curSquare, id, state, piece);
 
   const whiteInitPlaces = getInitPlaces("white", state);
   const blackInitPlaces = getInitPlaces("black", state);
@@ -10,8 +12,9 @@ export default function movePawn(type, curSquare, moveAbleArr, id, state) {
   const allInitPlaces = [...whiteInitPlaces, ...blackInitPlaces];
   const curSquareIndex = allInitPlaces.indexOf(curSquare);
   allInitPlaces.splice(curSquareIndex, 1);
-
-  for (let i = 1; i <= 2; i++) {
+  const pawnMoveAble = piece.moved === piece.initPlace ? 2 : 1;
+  console.log(pawnMoveAble);
+  for (let i = 1; i <= pawnMoveAble; i++) {
     const obj = {
       white: curSquare + 8 * i,
       black: curSquare - 8 * i,
@@ -23,8 +26,7 @@ export default function movePawn(type, curSquare, moveAbleArr, id, state) {
   }
 }
 
-function pawnKillOpponentFunc(type, curSquare, id, state) {
-  const piece = findPieceById(id, state.pieces[type]);
+function pawnKillOpponentFunc(type, curSquare, id, state, piece) {
   piece.killOpponent = [];
   const obj = {
     white: [curSquare + 9, curSquare + 7],

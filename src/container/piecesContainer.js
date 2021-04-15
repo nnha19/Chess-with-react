@@ -19,6 +19,7 @@ const pawns = (num, type) => {
       pieceName: "pawn",
       id: uuidv4(),
       killOpponent: [],
+      moved: i + num,
       move: function () {
         return moveAbleSquareFunc(
           type,
