@@ -8,7 +8,8 @@ class chessBoard extends Component {
     pieces: "",
     pickedPiece: "",
     moveAbleSquares: "",
-    killAble: "",
+    killAble: [],
+    turn: "white",
   };
 
   componentDidMount() {
@@ -22,31 +23,6 @@ class chessBoard extends Component {
       moveAbleSquares = [];
       const killAble = [];
       this.setState({ moveAbleSquares, killAble });
-    }
-  };
-
-  showMoveAbleSquaresHandler = (piece, moveIndex) => {
-    const pp = this.state.pickedPiece;
-    if (Object.keys(pp).length === 0 || pp.team === piece.team) {
-      const moveAble = piece.move();
-      let moveAbleSquares = [...this.state.moveAbleSquares];
-      moveAbleSquares = moveAble;
-      const pickedPiece = piece;
-      const { killOpponent: killAble } = piece;
-      this.setState({ moveAbleSquares, pickedPiece, killAble });
-    } else {
-      const killAble = this.state.killAble.some(
-        (square) => square === moveIndex
-      );
-      if (killAble) {
-        const type = this.state.pieces[piece.team][piece.pieceName].filter(
-          (type) => type.id !== piece.id
-        );
-        const oldState = { ...this.state.pieces };
-        oldState[piece.team][piece.pieceName] = type;
-        this.setState({ pieces: oldState });
-        this.clearMoveAbleHandler("", "killed");
-      }
     }
   };
 
@@ -65,7 +41,45 @@ class chessBoard extends Component {
     ] = piece;
     piecesTeam[pickedPiece.pieceName] = oldPiece;
     pieces[pickedPiece.team] = piecesTeam;
-    this.setState({ pieces, moveAbleSquares: [] });
+    this.clearMoveAbleHandler("", "killed");
+    let { turn } = this.state;
+    turn = turn === "white" ? "black" : "white";
+    this.setState({
+      pieces,
+      pickedPiece: {},
+      turn,
+    });
+  };
+
+  showMoveAbleSquaresHandler = (piece, moveIndex) => {
+    const pp = this.state.pickedPiece;
+    const pickedPiece = Object.keys(pp).length > 0;
+    if (piece.team !== this.state.turn && !pickedPiece) {
+      return;
+    }
+
+    if (!pickedPiece || pp.team === piece.team) {
+      const moveAble = piece.move();
+      let moveAbleSquares = [...this.state.moveAbleSquares];
+      moveAbleSquares = moveAble;
+      const pickedPiece = piece;
+      const { killOpponent: killAble } = piece;
+      this.setState({ moveAbleSquares, pickedPiece, killAble });
+    } else {
+      const killAble = this.state.killAble.some(
+        (square) => square === moveIndex
+      );
+      if (killAble) {
+        const type = this.state.pieces[piece.team][piece.pieceName].filter(
+          (type) => type.id !== piece.id
+        );
+        const oldState = { ...this.state.pieces };
+        oldState[piece.team][piece.pieceName] = type;
+        this.setState({ pieces: oldState });
+        this.clearMoveAbleHandler("", "killed");
+        this.moveThePieceHandler(moveIndex);
+      }
+    }
   };
 
   render() {
