@@ -1,4 +1,15 @@
-export default function moveCastle(endArr, type, curSquare, moveAbleArr) {
+import getInitPlaces from "../share/getInitPlaces";
+
+export default function moveCastle(
+  endArr,
+  type,
+  curSquare,
+  moveAbleArr,
+  state,
+  team
+) {
+  const typeInitPlaces = team && getInitPlaces(team, state);
+  console.log(typeInitPlaces);
   for (let i = 0; i <= 8; i++) {
     let square;
     if (type === "plus") {

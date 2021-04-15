@@ -38,6 +38,7 @@ const state = {
               this.team,
               this.initPlace,
               this.pieceName,
+              this.id,
               state
             );
           },
@@ -48,11 +49,13 @@ const state = {
         {
           img: piecesImg.castle("white"),
           initPlace: 7,
-          move: function (moveAbleSquareFunc) {
+          move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
-              this.pieceName
+              this.pieceName,
+              this.id,
+              state
             );
           },
           pieceName: "castle",
@@ -128,6 +131,7 @@ const state = {
               this.team,
               this.initPlace,
               this.pieceName,
+              this.id,
               state
             );
           },

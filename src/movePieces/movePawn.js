@@ -37,7 +37,6 @@ function pawnKillOpponentFunc(type, curSquare, id, state, piece) {
   );
   for (let i = 0; i < obj[type].length; i++) {
     opponentTeamSquare.forEach((square) => {
-      // console.log(square);
       if (square === obj[type][i]) {
         piece.killOpponent.push(obj[type][i]);
       }
