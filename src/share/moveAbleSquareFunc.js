@@ -52,26 +52,29 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
       killOpponent
     );
   } else if (pieceName === "horse") {
-    let ally, enemy;
-    const arr = [16, 16, -16, -16];
-    const arr2 = [2, 2, -2, -2];
-    for (let i = 1; i <= 2; i++) {
-      const sq1 = curSquare + arr[i] + 1;
-      const sq2 = curSquare + arr[i] - 1;
-      const sq3 = curSquare + arr2[i] + 8;
-      const sq4 = curSquare + arr2[i] - 8;
-      const sqs = [sq1, sq2, sq3, sq4];
-      sqs.forEach((sq) => {
-        [ally, enemy] = findAllyAndEnimies(
-          type,
-          state,
-          curSquare,
-          sq,
-          killOpponent
-        );
-        !ally && moveAbleArr.push(sq);
-      });
-    }
+    const arr = [17, 15, 10, 6, -6, -10, -17, -15];
+    console.log(squareColEnds);
+    console.log(curSquare);
+    arr.forEach((arr) => {
+      const square = arr + curSquare;
+
+      const [ally, enemy] = findAllyAndEnimies(
+        type,
+        state,
+        curSquare,
+        square,
+        killOpponent
+      );
+      !ally && moveAbleArr.push(square);
+    });
   }
   return moveAbleArr;
 };
+
+// findAllyAndEnimies(
+//   type,
+//   state,
+//   curSquare,
+//   sq,
+//   killOpponent
+// );
