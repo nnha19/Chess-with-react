@@ -1,6 +1,8 @@
 import movePawn from "../movePieces/movePawn";
 import moveCastle from "../movePieces/moveCastle";
 
+import findAllyAndEnimies from "../share/findAllyAndEnemies";
+
 const squareColEnds = [7, 15, 23, 31, 39, 47, 55, 63];
 const squareColEndsLeft = [0, 8, 16, 24, 32, 40, 48, 56];
 
@@ -50,13 +52,25 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
       killOpponent
     );
   } else if (pieceName === "horse") {
+    let ally, enemy;
     const arr = [16, 16, -16, -16];
     const arr2 = [2, 2, -2, -2];
     for (let i = 1; i <= 2; i++) {
-      moveAbleArr.push(curSquare + arr[i] + 1);
-      moveAbleArr.push(curSquare + arr[i] - 1);
-      moveAbleArr.push(curSquare + arr2[i] + 8);
-      moveAbleArr.push(curSquare + arr2[i] - 8);
+      const sq1 = curSquare + arr[i] + 1;
+      const sq2 = curSquare + arr[i] - 1;
+      const sq3 = curSquare + arr2[i] + 8;
+      const sq4 = curSquare + arr2[i] - 8;
+      const sqs = [sq1, sq2, sq3, sq4];
+      sqs.forEach((sq) => {
+        [ally, enemy] = findAllyAndEnimies(
+          type,
+          state,
+          curSquare,
+          sq,
+          killOpponent
+        );
+        !ally && moveAbleArr.push(sq);
+      });
     }
   }
   return moveAbleArr;
