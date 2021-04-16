@@ -45,7 +45,7 @@ class chessBoard extends Component {
     pieces[pickedPiece.team] = piecesTeam;
     this.clearMoveAbleHandler("", "killed");
     let { turn } = this.state;
-    // turn = turn === "white" ? "black" : "white";
+    turn = turn === "white" ? "black" : "white";
     this.setState({
       pieces,
       pickedPiece: {},
@@ -55,13 +55,18 @@ class chessBoard extends Component {
 
   showMoveAbleSquaresHandler = (piece, moveIndex) => {
     const pp = this.state.pickedPiece;
+    piece.killOpponent = [];
     const pickedPiece = Object.keys(pp).length > 0;
     if (piece.team !== this.state.turn && !pickedPiece) {
       return;
     }
 
     if (!pickedPiece || pp.team === piece.team) {
-      const moveAble = piece.move(moveAbleSquareFunc, this.state);
+      const moveAble = piece.move(
+        moveAbleSquareFunc,
+        this.state,
+        piece.killOpponent
+      );
       let moveAbleSquares = [...this.state.moveAbleSquares];
       moveAbleSquares = moveAble;
       const pickedPiece = piece;

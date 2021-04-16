@@ -6,14 +6,21 @@ export default function moveCastle(
   curSquare,
   moveAbleArr,
   state,
-  team
+  team,
+  killOpponent
 ) {
+  const enemyInitPlaces = getInitPlaces(
+    team === "white" ? "black" : "white",
+    state
+  );
   const typeInitPlaces = getInitPlaces(team, state);
+
   typeInitPlaces.forEach((occupied) => {
     if (occupied === curSquare) {
       typeInitPlaces.splice(typeInitPlaces.indexOf(curSquare), 1);
     }
   });
+
   for (let i = 0; i <= 8; i++) {
     let square;
     if (type === "plus") {
@@ -26,13 +33,19 @@ export default function moveCastle(
       square = curSquare - 8 * i;
     }
 
-    let foundOccupied;
-    typeInitPlaces.forEach((occupied) => {
-      if (occupied === square) {
-        foundOccupied = true;
-      }
-    });
-    if (foundOccupied) return;
+    function stopTheLoop(initPlaces) {
+      let squareOccupied;
+      initPlaces.forEach((occupied) => {
+        if (occupied === square) {
+          squareOccupied = square;
+        }
+      });
+      return squareOccupied;
+    }
+    const allyOccupied = stopTheLoop(typeInitPlaces);
+    const enemyOccupied = stopTheLoop(enemyInitPlaces);
+    killOpponent.push(enemyOccupied);
+    if (allyOccupied || enemyOccupied) return;
 
     const sameSquare = endArr.some((end) => end === square);
     i = sameSquare ? 8 : i;

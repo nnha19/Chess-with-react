@@ -39,9 +39,11 @@ const state = {
               this.initPlace,
               this.pieceName,
               this.id,
-              state
+              state,
+              this.killOpponent
             );
           },
+          killOpponent: [],
           pieceName: "castle",
           id: uuidv4(),
           team: "white",
@@ -55,9 +57,11 @@ const state = {
               this.initPlace,
               this.pieceName,
               this.id,
-              state
+              state,
+              this.killOpponent
             );
           },
+          killOpponent: [],
           pieceName: "castle",
           id: uuidv4(),
           team: "white",
@@ -132,25 +136,29 @@ const state = {
               this.initPlace,
               this.pieceName,
               this.id,
-              state
+              state,
+              this.killOpponent
             );
           },
           team: "black",
           id: uuidv4(),
+          killOpponent: [],
           pieceName: "castle",
         },
         {
           img: piecesImg.castle("black"),
           initPlace: 56,
-          move: function (moveAbleSquareFunc, state) {
+          move: function (moveAbleSquareFunc) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
               this.pieceName,
               this.id,
-              state
+              state,
+              this.killOpponent
             );
           },
+          killOpponent: [],
           team: "black",
           id: uuidv4(),
           pieceName: "castle",
@@ -218,19 +226,5 @@ const state = {
   pickedPiece: {},
   killAble: [],
 };
-
-// const moveAbleSquareFunc = (type, curSquare, pieceName, id) => {
-//   console.log("Hey.");
-//   const moveAbleArr = [];
-//   if (pieceName === "pawn") {
-//     movePawn(type, curSquare, moveAbleArr, id, state);
-//   } else if (pieceName === "castle") {
-//     moveCastle(squareColEnds, "plus", curSquare, moveAbleArr);
-//     moveCastle(squareColEndsLeft, "minus", curSquare, moveAbleArr);
-//     moveCastle(squareRowEnds, "plusmultiply", curSquare, moveAbleArr);
-//     moveCastle(squareRowEndsBtn, "minusmultiply", curSquare, moveAbleArr);
-//   }
-//   return moveAbleArr;
-// };
 
 export default state;
