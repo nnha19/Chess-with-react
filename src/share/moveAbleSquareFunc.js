@@ -49,6 +49,15 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
       type,
       killOpponent
     );
+  } else if (pieceName === "horse") {
+    const arr = [16, 16, -16, -16];
+    const arr2 = [2, 2, -2, -2];
+    for (let i = 1; i <= 2; i++) {
+      moveAbleArr.push(curSquare + arr[i] + 1);
+      moveAbleArr.push(curSquare + arr[i] - 1);
+      moveAbleArr.push(curSquare + arr2[i] + 8);
+      moveAbleArr.push(curSquare + arr2[i] - 8);
+    }
   }
   return moveAbleArr;
 };

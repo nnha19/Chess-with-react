@@ -88,8 +88,8 @@ const state = {
       horse: [
         {
           img: piecesImg.horse("white"),
-          initPlace: 1,
-          move: (moveAbleSquareFunc, state) => {
+          initPlace: 27,
+          move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
