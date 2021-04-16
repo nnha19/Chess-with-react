@@ -8,16 +8,22 @@ const squareRowEnds = [0, 1, 2, 3, 4, 5, 6, 7];
 const squareRowEndsBtn = [56, 57, 58, 59, 60, 61, 62, 63];
 
 export default (type, curSquare, pieceName, id, state) => {
-  console.log(id);
   const moveAbleArr = [];
   if (pieceName === "pawn") {
     movePawn(type, curSquare, moveAbleArr, id, state);
   } else if (pieceName === "castle") {
-    moveCastle(squareColEnds, "plus", curSquare, moveAbleArr, state);
-    moveCastle(squareColEndsLeft, "minus", curSquare, moveAbleArr, state);
-    moveCastle(squareRowEnds, "plusmultiply", curSquare, moveAbleArr, state);
+    moveCastle(squareColEnds, "plus", curSquare, moveAbleArr, state, type);
+    moveCastle(squareColEndsLeft, "minus", curSquare, moveAbleArr, state, type);
     moveCastle(
       squareRowEndsBtn,
+      "plusmultiply",
+      curSquare,
+      moveAbleArr,
+      state,
+      type
+    );
+    moveCastle(
+      squareRowEnds,
       "minusmultiply",
       curSquare,
       moveAbleArr,
