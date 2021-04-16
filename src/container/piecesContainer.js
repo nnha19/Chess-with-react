@@ -89,18 +89,38 @@ const state = {
         {
           img: piecesImg.horse("white"),
           initPlace: 1,
-          move: "",
+          move: (moveAbleSquareFunc, state) => {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           pieceName: "horse",
           id: uuidv4(),
           team: "white",
+          killOpponent: [],
         },
         {
           img: piecesImg.horse("white"),
           initPlace: 6,
-          move: "",
           pieceName: "horse",
           id: uuidv4(),
           team: "white",
+          killOpponent: [],
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
         },
       ],
       king: [
@@ -186,7 +206,16 @@ const state = {
         {
           img: piecesImg.horse("black"),
           initPlace: 62,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "horse",
@@ -194,7 +223,16 @@ const state = {
         {
           img: piecesImg.horse("black"),
           initPlace: 57,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "horse",
