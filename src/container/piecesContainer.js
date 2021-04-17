@@ -205,7 +205,7 @@ const state = {
       biShop: [
         {
           img: piecesImg.biShop("black"),
-          initPlace: 36,
+          initPlace: 34,
           move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
