@@ -1,3 +1,5 @@
+import findAllyAndEnemies from "../share/findAllyAndEnemies";
+
 export default function moveBishop(
   type,
   curSquare,
@@ -19,9 +21,16 @@ export default function moveBishop(
       );
       if (curPieceIsOnEnd && (num === -9 || num === 7)) return;
       if (curPieceRightEnd && (num === 9 || num === -7)) return;
+      const [ally, enemy] = findAllyAndEnemies(
+        type,
+        state,
+        curSquare,
+        square,
+        killOpponent
+      );
+      if (ally) return;
       moveAbleArr.push(square);
       if (bishopEndArr.some((end) => end === square)) {
-        moveAbleArr.push(square);
         return;
       }
       prevSquare = prevSquare + num;
