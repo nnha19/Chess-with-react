@@ -1,5 +1,6 @@
 import findPieceById from "../share/findPieceById";
 import getInitPlaces from "../share/getInitPlaces";
+import { colObj, rowObj } from "../share/colOrRowObj";
 
 export default function movePawn(type, curSquare, moveAbleArr, id, state) {
   const piece = findPieceById(id, state.pieces[type]);
@@ -35,12 +36,15 @@ function pawnKillOpponentFunc(type, curSquare, id, state, piece) {
     type === "white" ? "black" : "white",
     state
   );
+  const col = type === "white" ? 8 : -8;
   for (let i = 0; i < obj[type].length; i++) {
     opponentTeamSquare.forEach((square) => {
       if (square === obj[type][i]) {
-        piece.killOpponent.push(obj[type][i]);
+        const validCol = colObj[curSquare + col];
+        const killSquareCol = colObj[obj[type][i]];
+
+        validCol === killSquareCol && piece.killOpponent.push(obj[type][i]);
       }
     });
   }
-  console.log(piece.killOpponent);
 }

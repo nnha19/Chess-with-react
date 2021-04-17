@@ -53,8 +53,6 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
     );
   } else if (pieceName === "horse") {
     const arr = [17, 15, 10, 6, -6, -10, -17, -15];
-    console.log(squareColEnds);
-    console.log(curSquare);
     arr.forEach((arr) => {
       const square = arr + curSquare;
 
@@ -70,11 +68,3 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
   }
   return moveAbleArr;
 };
-
-// findAllyAndEnimies(
-//   type,
-//   state,
-//   curSquare,
-//   sq,
-//   killOpponent
-// );
