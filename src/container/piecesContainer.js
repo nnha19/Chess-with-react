@@ -32,7 +32,7 @@ const state = {
       castle: [
         {
           img: piecesImg.castle("white"),
-          initPlace: 35,
+          initPlace: 0,
           move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
@@ -71,7 +71,16 @@ const state = {
         {
           img: piecesImg.biShop("white"),
           initPlace: 2,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           pieceName: "biShop",
           id: uuidv4(),
           team: "white",
@@ -79,7 +88,16 @@ const state = {
         {
           img: piecesImg.biShop("white"),
           initPlace: 5,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           pieceName: "biShop",
           id: uuidv4(),
           team: "white",
@@ -88,7 +106,7 @@ const state = {
       horse: [
         {
           img: piecesImg.horse("white"),
-          initPlace: 27,
+          initPlace: 1,
           move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
@@ -187,8 +205,17 @@ const state = {
       biShop: [
         {
           img: piecesImg.biShop("black"),
-          initPlace: 61,
-          move: "",
+          initPlace: 36,
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "biShop",
@@ -196,7 +223,16 @@ const state = {
         {
           img: piecesImg.biShop("black"),
           initPlace: 58,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "biShop",

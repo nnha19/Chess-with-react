@@ -1,5 +1,8 @@
 import movePawn from "../movePieces/movePawn";
 import moveCastle from "../movePieces/moveCastle";
+import moveBishop from "../movePieces/moveBishop";
+
+import { colObj, rowObj } from "./colOrRowObj";
 
 import findAllyAndEnimies from "../share/findAllyAndEnemies";
 
@@ -55,7 +58,6 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
     const arr = [17, 15, 10, 6, -6, -10, -17, -15];
     arr.forEach((arr) => {
       const square = arr + curSquare;
-
       const [ally, enemy] = findAllyAndEnimies(
         type,
         state,
@@ -65,6 +67,8 @@ export default (type, curSquare, pieceName, id, state, killOpponent) => {
       );
       !ally && moveAbleArr.push(square);
     });
+  } else if (pieceName === "biShop") {
+    moveBishop(type, curSquare, state, moveAbleArr, killOpponent);
   }
   return moveAbleArr;
 };
