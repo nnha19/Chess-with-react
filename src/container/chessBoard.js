@@ -90,6 +90,7 @@ class chessBoard extends Component {
   };
 
   render() {
+    console.log(this.state);
     const { pieces, moveAbleSquares, pickedPiece } = this.state;
     return pieces && moveAbleSquares && pickedPiece ? (
       <>

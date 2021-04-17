@@ -22,7 +22,7 @@ export default function moveCastle(
     } else if (type === "minusmultiply") {
       square = curSquare - 8 * i;
     }
-
+    console.log(square);
     const [allyOccupied, enemyOccupied] = findAllyAndEnimies(
       team,
       state,
@@ -30,6 +30,7 @@ export default function moveCastle(
       square,
       killOpponent
     );
+    console.log(killOpponent);
 
     if (allyOccupied || enemyOccupied) return;
 

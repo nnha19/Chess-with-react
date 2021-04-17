@@ -25,7 +25,7 @@ const findAllyAndEnimies = (team, state, curSquare, square, killOpponent) => {
   }
   const allyOccupied = stopTheLoop(typeInitPlaces);
   const enemyOccupied = stopTheLoop(enemyInitPlaces);
-  killOpponent.push(enemyOccupied);
+  enemyOccupied && killOpponent.push(enemyOccupied);
   return [allyOccupied, enemyOccupied];
 };
 

@@ -168,7 +168,7 @@ const state = {
         {
           img: piecesImg.castle("black"),
           initPlace: 56,
-          move: function (moveAbleSquareFunc) {
+          move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
               this.initPlace,
