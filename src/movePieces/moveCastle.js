@@ -22,20 +22,19 @@ export default function moveCastle(
     } else if (type === "minusmultiply") {
       square = curSquare - 8 * i;
     }
-    console.log(square);
     const [allyOccupied, enemyOccupied] = findAllyAndEnimies(
       team,
       state,
       curSquare,
       square,
-      killOpponent
+      killOpponent,
+      moveAbleArr
     );
-    console.log(killOpponent);
 
     if (allyOccupied || enemyOccupied) return;
 
     const sameSquare = endArr.some((end) => end === square);
     i = sameSquare ? 8 : i;
-    curSquare !== square && moveAbleArr.push(square);
+    // curSquare !== square && moveAbleArr.push(square);
   }
 }

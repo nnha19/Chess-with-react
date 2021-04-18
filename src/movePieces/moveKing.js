@@ -20,11 +20,9 @@ export default function moveKing(
         state,
         curSquare,
         square,
-        killOpponent
+        killOpponent,
+        moveAbleArr
       );
-      if (!ally) {
-        moveAbleArr.push(square);
-      }
     }
   });
 }

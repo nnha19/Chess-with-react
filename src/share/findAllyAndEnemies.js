@@ -1,6 +1,13 @@
 import getInitPlaces from "../share/getInitPlaces";
 
-const findAllyAndEnimies = (team, state, curSquare, square, killOpponent) => {
+const findAllyAndEnimies = (
+  team,
+  state,
+  curSquare,
+  square,
+  killOpponent,
+  moveAbleArr
+) => {
   const typeInitPlaces = getInitPlaces(team, state);
 
   typeInitPlaces.forEach((occupied) => {
@@ -23,9 +30,13 @@ const findAllyAndEnimies = (team, state, curSquare, square, killOpponent) => {
     });
     return squareOccupied;
   }
+
   const allyOccupied = stopTheLoop(typeInitPlaces);
   const enemyOccupied = stopTheLoop(enemyInitPlaces);
   enemyOccupied && killOpponent.push(enemyOccupied);
+
+  !allyOccupied && enemyOccupied !== square && moveAbleArr.push(square);
+
   return [allyOccupied, enemyOccupied];
 };
 
