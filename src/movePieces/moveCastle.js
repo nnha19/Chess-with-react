@@ -39,6 +39,5 @@ export default function moveCastle(
 
     const sameSquare = endArr.some((end) => end === square);
     i = sameSquare ? 8 : i;
-    // curSquare !== square && moveAbleArr.push(square);
   }
 }

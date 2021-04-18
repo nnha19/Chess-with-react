@@ -1,6 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
 import { piecesImg } from "../assets/piecesImgs";
 
+import whiteBoardArr from "../components/ChessBoard/WhiteBoardArr";
+
+function blackOrWhite(curSquare) {
+  const white = whiteBoardArr.some((white) => white === curSquare);
+  return white;
+}
+
 const pawns = (num, type) => {
   let result = Array.from(Array(8)).map((pawn, i) => {
     return {
@@ -166,7 +173,19 @@ const state = {
         {
           img: piecesImg.queen("white"),
           initPlace: 3,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            const white = blackOrWhite(this.initPlace);
+            const squareType = white ? "whiteSquare" : "blackSquare";
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent,
+              squareType
+            );
+          },
           team: "white",
           id: uuidv4(),
           pieceName: "queen",
@@ -310,7 +329,19 @@ const state = {
         {
           img: piecesImg.queen("black"),
           initPlace: 59,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            const white = blackOrWhite(this.initPlace);
+            const squareType = white ? "whiteSquare" : "blackSquare";
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent,
+              squareType
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "queen",

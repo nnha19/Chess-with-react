@@ -21,6 +21,7 @@ export default function moveBishop(
   killOpponent,
   squareType
 ) {
+  console.log(squareType);
   function moveAbleBiShop(num) {
     let prevSquare = curSquare + num;
     for (let i = 0; i <= 8; i++) {
