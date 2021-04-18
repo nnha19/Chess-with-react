@@ -28,7 +28,7 @@ export default function moveBishop(
         square,
         killOpponent
       );
-      if (ally) return;
+      if (ally || enemy) return;
       moveAbleArr.push(square);
       if (bishopEndArr.some((end) => end === square)) {
         return;
@@ -40,4 +40,6 @@ export default function moveBishop(
   moveAbleBiShop(-7);
   moveAbleBiShop(9);
   moveAbleBiShop(7);
+  killOpponent.splice(1);
+  console.log(moveAbleArr);
 }
