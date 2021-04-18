@@ -207,7 +207,7 @@ const state = {
       biShop: [
         {
           img: piecesImg.biShop("black"),
-          initPlace: 34,
+          initPlace: 61,
           move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
@@ -282,7 +282,16 @@ const state = {
         {
           img: piecesImg.king("black"),
           initPlace: 60,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           team: "black",
           id: uuidv4(),
           pieceName: "king",

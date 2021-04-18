@@ -1,8 +1,7 @@
 import movePawn from "../movePieces/movePawn";
 import moveCastle from "../movePieces/moveCastle";
 import moveBishop from "../movePieces/moveBishop";
-
-import { colObj, rowObj } from "./colOrRowObj";
+import moveKing from "../movePieces/moveKing";
 
 import findAllyAndEnimies from "../share/findAllyAndEnemies";
 
@@ -77,6 +76,8 @@ export default (
     });
   } else if (pieceName === "biShop") {
     moveBishop(type, curSquare, state, moveAbleArr, killOpponent, squareType);
+  } else if (pieceName === "king") {
+    moveKing(type, curSquare, state, moveAbleArr, killOpponent, squareType);
   }
   return moveAbleArr;
 };
