@@ -30,7 +30,11 @@ export default function moveCastle(
       killOpponent,
       moveAbleArr
     );
-
+    moveAbleArr.forEach((arr) => {
+      if (arr === curSquare) {
+        moveAbleArr.splice(moveAbleArr.indexOf(arr), 1);
+      }
+    });
     if (allyOccupied || enemyOccupied) return;
 
     const sameSquare = endArr.some((end) => end === square);

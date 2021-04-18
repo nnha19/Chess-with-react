@@ -70,7 +70,8 @@ export default (
         state,
         curSquare,
         square,
-        killOpponent
+        killOpponent,
+        moveAbleArr
       );
       !ally && moveAbleArr.push(square);
     });

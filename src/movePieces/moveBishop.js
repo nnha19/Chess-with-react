@@ -38,7 +38,8 @@ export default function moveBishop(
         state,
         curSquare,
         square,
-        killOpponent
+        killOpponent,
+        moveAbleArr
       );
       if (ally || enemy) return;
       moveAbleArr.push(square);
