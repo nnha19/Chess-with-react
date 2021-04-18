@@ -25,6 +25,5 @@ export default function moveHorse(
       killOpponent,
       moveAbleArr
     );
-    !ally && moveAbleArr.push(square);
   });
 }
