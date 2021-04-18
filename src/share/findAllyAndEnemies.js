@@ -33,7 +33,9 @@ const findAllyAndEnimies = (
 
   const allyOccupied = stopTheLoop(typeInitPlaces);
   const enemyOccupied = stopTheLoop(enemyInitPlaces);
-  enemyOccupied && killOpponent.push(enemyOccupied);
+  (enemyOccupied || enemyOccupied === 0) &&
+    enemyOccupied > -1 &&
+    killOpponent.push(enemyOccupied);
 
   !allyOccupied && enemyOccupied !== square && moveAbleArr.push(square);
 
