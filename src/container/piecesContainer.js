@@ -78,7 +78,8 @@ const state = {
               this.pieceName,
               this.id,
               state,
-              this.killOpponent
+              this.killOpponent,
+              "blackSquare"
             );
           },
           pieceName: "biShop",
@@ -95,7 +96,8 @@ const state = {
               this.pieceName,
               this.id,
               state,
-              this.killOpponent
+              this.killOpponent,
+              "whiteSquare"
             );
           },
           pieceName: "biShop",
@@ -213,7 +215,8 @@ const state = {
               this.pieceName,
               this.id,
               state,
-              this.killOpponent
+              this.killOpponent,
+              "blackSquare"
             );
           },
           team: "black",
@@ -230,7 +233,8 @@ const state = {
               this.pieceName,
               this.id,
               state,
-              this.killOpponent
+              this.killOpponent,
+              "whiteSquare"
             );
           },
           team: "black",
