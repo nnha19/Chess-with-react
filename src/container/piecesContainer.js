@@ -147,7 +147,16 @@ const state = {
         {
           img: piecesImg.king("white"),
           initPlace: 4,
-          move: "",
+          move: function (moveAbleSquareFunc, state) {
+            return moveAbleSquareFunc(
+              this.team,
+              this.initPlace,
+              this.pieceName,
+              this.id,
+              state,
+              this.killOpponent
+            );
+          },
           team: "white",
           id: uuidv4(),
           pieceName: "king",

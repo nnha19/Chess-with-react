@@ -23,7 +23,7 @@ export default function moveKing(
         killOpponent
       );
       if (!ally) {
-        moveAbleArr.push(curSquare + k);
+        moveAbleArr.push(square);
       }
     }
   });

@@ -54,6 +54,7 @@ class chessBoard extends Component {
   };
 
   showMoveAbleSquaresHandler = (piece, moveIndex) => {
+    console.log(this.state);
     const pp = this.state.pickedPiece;
     piece.killOpponent = [];
     const pickedPiece = Object.keys(pp).length > 0;
