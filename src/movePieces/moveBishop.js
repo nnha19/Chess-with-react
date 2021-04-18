@@ -52,5 +52,4 @@ export default function moveBishop(
   moveAbleBiShop(-7);
   moveAbleBiShop(9);
   moveAbleBiShop(7);
-  killOpponent.splice(1);
 }

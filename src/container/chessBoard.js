@@ -45,7 +45,7 @@ class chessBoard extends Component {
     pieces[pickedPiece.team] = piecesTeam;
     this.clearMoveAbleHandler("", "killed");
     let { turn } = this.state;
-    // turn = turn === "white" ? "black" : "white";
+    turn = turn === "white" ? "black" : "white";
     this.setState({
       pieces,
       pickedPiece: {},
