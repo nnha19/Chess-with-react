@@ -20,6 +20,7 @@ const ChessBoard = (props) => {
   const square = squareArray.map((square, i) => {
     const squareClsName = `board__square
    ${whiteBoardArr.some((white) => white === i) ? "white" : ""} `.split(" ");
+    props.chess && props.chess.kingSquare === i && squareClsName.push("kill");
     props.moveAbleSquares.forEach((square) => {
       if (square === i) {
         squareClsName.push("moveable");

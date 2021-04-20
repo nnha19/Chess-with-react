@@ -1,4 +1,4 @@
-export default function getInitPlaces(team, state) {
+export default function getInitPlaces(team, state, killOpponent) {
   const { pieces } = state;
   const piecesKey = Object.keys(pieces.white);
   let initPlaces = piecesKey.map((piecesKey) => {
@@ -6,7 +6,7 @@ export default function getInitPlaces(team, state) {
   });
   initPlaces = initPlaces.map((piece) => {
     return piece.map((piece) => {
-      return piece.initPlace;
+      return !killOpponent ? piece.initPlace : piece[killOpponent];
     });
   });
   initPlaces = initPlaces.flat();

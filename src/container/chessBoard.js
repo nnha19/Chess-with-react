@@ -4,6 +4,7 @@ import ChessBoard from "../components/ChessBoard/ChessBoard";
 import piecesState from "./piecesContainer";
 
 import moveAbleSquareFunc from "../share/moveAbleSquareFunc";
+import getInitPlaces from "../share/getInitPlaces";
 
 class chessBoard extends Component {
   state = {
@@ -11,13 +12,32 @@ class chessBoard extends Component {
     pickedPiece: "",
     moveAbleSquares: "",
     killAble: [],
-    turn: "black",
+    turn: "white",
+    chess: false,
   };
 
   componentDidMount() {
     const { pieces, moveAbleSquares, pickedPiece } = piecesState;
     this.setState({ pieces, moveAbleSquares, pickedPiece });
   }
+
+  checkChess = (killAble) => {
+    const state = this.state;
+    const opponentTeam = state.pickedPiece.team === "white" ? "black" : "white";
+    const kingSquare = state.pieces[opponentTeam].king[0].initPlace;
+    const allKillAbles = getInitPlaces(
+      state.pickedPiece.team,
+      this.state,
+      "killOpponent"
+    ).flat();
+    const chess = allKillAbles.some((killAble) => killAble === kingSquare);
+    if (chess) {
+      const stateChess = { team: opponentTeam, kingSquare };
+      this.setState({ chess: stateChess });
+    } else {
+      this.setState({ chess: false });
+    }
+  };
 
   clearMoveAbleHandler = (e, killed) => {
     if (killed || !e.target.closest(".board__square")) {
@@ -51,10 +71,15 @@ class chessBoard extends Component {
       pickedPiece: {},
       turn,
     });
+    const [, killAble] = piece.move(
+      moveAbleSquareFunc,
+      this.state,
+      piece.killOpponent
+    );
+    this.checkChess(killAble);
   };
 
   showMoveAbleSquaresHandler = (piece, moveIndex) => {
-    console.log(this.state);
     const pp = this.state.pickedPiece;
     piece.killOpponent = [];
     const pickedPiece = Object.keys(pp).length > 0;
@@ -63,7 +88,7 @@ class chessBoard extends Component {
     }
 
     if (!pickedPiece || pp.team === piece.team) {
-      const moveAble = piece.move(
+      const [moveAble] = piece.move(
         moveAbleSquareFunc,
         this.state,
         piece.killOpponent
@@ -91,6 +116,7 @@ class chessBoard extends Component {
   };
 
   render() {
+    console.log(this.state.chess);
     const { pieces, moveAbleSquares, pickedPiece } = this.state;
     return pieces && moveAbleSquares && pickedPiece ? (
       <>
@@ -103,6 +129,7 @@ class chessBoard extends Component {
           moveAbleSquares={moveAbleSquares}
           killAbleSquares={this.state.killAble}
           moveThePiece={(moveSquare) => this.moveThePieceHandler(moveSquare)}
+          chess={this.state.chess}
         />
       </>
     ) : null;

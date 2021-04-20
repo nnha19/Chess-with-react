@@ -2,10 +2,15 @@ import findPieceById from "../share/findPieceById";
 import getInitPlaces from "../share/getInitPlaces";
 import { colObj, rowObj } from "../share/colOrRowObj";
 
-export default function movePawn(type, curSquare, moveAbleArr, id, state) {
+export default function movePawn(
+  type,
+  curSquare,
+  moveAbleArr,
+  id,
+  state,
+  killOpponent
+) {
   const piece = findPieceById(id, state.pieces[type]);
-
-  pawnKillOpponentFunc(type, curSquare, id, state, piece);
 
   const whiteInitPlaces = getInitPlaces("white", state);
   const blackInitPlaces = getInitPlaces("black", state);
@@ -24,10 +29,10 @@ export default function movePawn(type, curSquare, moveAbleArr, id, state) {
       ? moveAbleArr.push(moveAbleSquare)
       : (i = 2);
   }
+  pawnKillOpponentFunc(type, curSquare, id, state, piece, killOpponent);
 }
 
-function pawnKillOpponentFunc(type, curSquare, id, state, piece) {
-  piece.killOpponent = [];
+function pawnKillOpponentFunc(type, curSquare, id, state, piece, killOpponent) {
   const obj = {
     white: [curSquare + 9, curSquare + 7],
     black: [curSquare - 9, curSquare - 7],
@@ -43,7 +48,7 @@ function pawnKillOpponentFunc(type, curSquare, id, state, piece) {
         const validCol = colObj[curSquare + col];
         const killSquareCol = colObj[obj[type][i]];
 
-        validCol === killSquareCol && piece.killOpponent.push(obj[type][i]);
+        validCol === killSquareCol && killOpponent.push(obj[type][i]);
       }
     });
   }

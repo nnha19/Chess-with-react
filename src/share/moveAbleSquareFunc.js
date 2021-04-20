@@ -18,9 +18,11 @@ export default (
   killOpponent,
   squareType
 ) => {
+  killOpponent.splice(0);
   const moveAbleArr = [];
+  let killAble;
   if (pieceName === "pawn") {
-    movePawn(type, curSquare, moveAbleArr, id, state);
+    killAble = movePawn(type, curSquare, moveAbleArr, id, state, killOpponent);
   } else if (pieceName === "castle") {
     arrs.forEach((arr, i) => {
       moveCastle(
@@ -42,5 +44,5 @@ export default (
   } else if (pieceName === "queen") {
     moveQueen(type, curSquare, state, moveAbleArr, killOpponent, squareType);
   }
-  return moveAbleArr;
+  return [moveAbleArr, killOpponent];
 };

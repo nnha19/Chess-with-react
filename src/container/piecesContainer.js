@@ -24,7 +24,8 @@ const pawns = (num, type) => {
           this.initPlace,
           this.pieceName,
           this.id,
-          state
+          state,
+          this.killOpponent
         );
       },
     };
@@ -274,6 +275,7 @@ const state = {
         {
           img: piecesImg.horse("black"),
           initPlace: 62,
+          killOpponent: [],
           move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
@@ -291,6 +293,7 @@ const state = {
         {
           img: piecesImg.horse("black"),
           initPlace: 57,
+          killOpponent: [],
           move: function (moveAbleSquareFunc, state) {
             return moveAbleSquareFunc(
               this.team,
